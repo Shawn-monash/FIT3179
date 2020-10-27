@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 600,
+  "height": 400,
+  "title": "Are ratings affected by how cheap/expensive a restaurant is?",
+  "data": {
+    "url": "https://raw.githubusercontent.com/Shawn-monash/FIT3179_homework/main/data/zomato_latest.csv"
+  },
+  "params": [
+    {
+      "name": "Votes_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 10000,
+        "step": 10,
+        "name": "Minimum Votes: "
+      }
+    },
+    {
+      "name": "City_selection",
+      "bind": {
+        "input": "select",
+        "options": [null, "New Delhi", "Mumbai", "Noida", "Gurgaon"],
+        "labels": ["Show all", "New Delhi", "Mumbai", "Noida", "Gurgaon"],
+        "name": "City Selection"
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "City_selection == null || datum.City == City_selection"},
+    {"filter": "datum.Votes > Votes_Above"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "circle", "tooltip": {"content": "data"}},
+      "encoding": {
+        "x": {"field": "Average Cost for two", "type": "quantitative"},
+        "y": {"field": "Aggregate rating", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "circle", "tooltip": {"content": "data"}},
+      "encoding": {
+        "x": {"field": "Average Cost for two", "type": "quantitative"},
+        "y": {"field": "Aggregate rating", "type": "quantitative"},
+        "color": {
+          "field": "Aggregate rating",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [1, 2, 3, 4],
+            "range": ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]
+          }
+        },
+        "size": {"value": 60}
+      }
+    }
+  ],
+  "config": {}
+}
