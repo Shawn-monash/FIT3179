@@ -1,0 +1,193 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "height": 250,
+  "width": 450,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Shawn-monash/FIT3179/main/data/zomato_latest_v2.csv"
+  },
+  "params": [
+    {
+      "name": "Votes_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 11000,
+        "step": 100,
+        "name": "Minimum Votes: "
+      }
+    },
+    {
+      "name": "City_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Agra",
+          "Ahmedabad",
+          "Allahabad",
+          "Amritsar",
+          "Aurangabad",
+          "Bangalore",
+          "Bhopal",
+          "Bhubaneshwar",
+          "Chandigarh",
+          "Chennai",
+          "Coimbatore",
+          "Dehradun",
+          "Faridabad",
+          "Ghaziabad",
+          "Goa",
+          "Gurgaon",
+          "Guwahati",
+          "Hyderabad",
+          "Indore",
+          "Jaipur",
+          "Kanpur",
+          "Kochi",
+          "Kolkata",
+          "Lucknow",
+          "Luhiana",
+          "Mangalore",
+          "Mohali",
+          "Mumbai",
+          "Mysore",
+          "Nagpur",
+          "Nashik",
+          "New Delhi",
+          "Noida",
+          "Panchkula",
+          "Patna",
+          "Puducherry",
+          "Pune",
+          "Ranchi",
+          "Secunderabad",
+          "Surat",
+          "Vadodara",
+          "Varanasi",
+          "Vizag"
+        ],
+        "labels": [
+          "Show all",
+          "Agra",
+          "Ahmedabad",
+          "Allahabad",
+          "Amritsar",
+          "Aurangabad",
+          "Bangalore",
+          "Bhopal",
+          "Bhubaneshwar",
+          "Chandigarh",
+          "Chennai",
+          "Coimbatore",
+          "Dehradun",
+          "Faridabad",
+          "Ghaziabad",
+          "Goa",
+          "Gurgaon",
+          "Guwahati",
+          "Hyderabad",
+          "Indore",
+          "Jaipur",
+          "Kanpur",
+          "Kochi",
+          "Kolkata",
+          "Lucknow",
+          "Luhiana",
+          "Mangalore",
+          "Mohali",
+          "Mumbai",
+          "Mysore",
+          "Nagpur",
+          "Nashik",
+          "New Delhi",
+          "Noida",
+          "Panchkula",
+          "Patna",
+          "Puducherry",
+          "Pune",
+          "Ranchi",
+          "Secunderabad",
+          "Surat",
+          "Vadodara",
+          "Varanasi",
+          "Vizag"
+        ],
+        "name": "City Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "City_selection == null || datum.City == City_selection"},
+    {"filter": "datum.Votes > Votes_Above"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "Rating_text",
+      "title": "Rating",
+      "type": "nominal",
+      "sort": ["Excellent", "Very Good", "Good", "Average", "Poor", "Not rated"]
+    },
+    "y": {"aggregate": "count", "title": "Number of Restaurants"}
+  },
+  "layer": [
+    {
+      "selection": {
+        "continent_highlight": {
+          "type": "multi",
+          "fields": ["Rating_text"],
+          "bind": "legend"
+        }
+      },
+      "mark": "bar",
+      "encoding": {
+        "color": {
+          "field": "Rating_text",
+          "title": "Rating",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Excellent",
+              "Very Good",
+              "Good",
+              "Average",
+              "Poor",
+              "Not rated"
+            ],
+            "range": [
+              "#1a9641",
+              "#a6d96a",
+              "#fecc5c",
+              "#fd8d3c",
+              "#d7191c",
+              "#bababa"
+            ]
+          }
+        },
+        "opacity": {
+          "condition": {"selection": "continent_highlight", "value": 0.8},
+          "value": 0.2
+        },
+        "tooltip": [
+          {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Number of Restaurants"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": 12,
+        "dy": -7,
+        "fontStyle": "italic"
+      },
+      "encoding": {"text": {"aggregate": "count", "type": "quantitative"}}
+    }
+  ],
+  "config": {}
+}

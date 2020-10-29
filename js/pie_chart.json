@@ -1,0 +1,212 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/Shawn-monash/FIT3179/main/data/zomato_latest_v2.csv"
+  },
+  "params": [
+    {
+      "name": "Rating_selection",
+"bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Excellent",
+          "Very Good",
+          "Good",
+          "Average",
+          "Poor"
+        ],
+        "labels": [
+          "Show all",
+          "Excellent",
+          "Very Good",
+          "Good",
+          "Average",
+          "Poor"
+        ],
+        "name": "Rating Selection: "
+      
+      }
+    },
+    {
+      "name": "City_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Agra",
+          "Ahmedabad",
+          "Allahabad",
+          "Amritsar",
+          "Aurangabad",
+          "Bangalore",
+          "Bhopal",
+          "Bhubaneshwar",
+          "Chandigarh",
+          "Chennai",
+          "Coimbatore",
+          "Dehradun",
+          "Faridabad",
+          "Ghaziabad",
+          "Goa",
+          "Gurgaon",
+          "Guwahati",
+          "Hyderabad",
+          "Indore",
+          "Jaipur",
+          "Kanpur",
+          "Kochi",
+          "Kolkata",
+          "Lucknow",
+          "Luhiana",
+          "Mangalore",
+          "Mohali",
+          "Mumbai",
+          "Mysore",
+          "Nagpur",
+          "Nashik",
+          "New Delhi",
+          "Noida",
+          "Panchkula",
+          "Patna",
+          "Puducherry",
+          "Pune",
+          "Ranchi",
+          "Secunderabad",
+          "Surat",
+          "Vadodara",
+          "Varanasi",
+          "Vizag"
+        ],
+        "labels": [
+          "Show all",
+          "Agra",
+          "Ahmedabad",
+          "Allahabad",
+          "Amritsar",
+          "Aurangabad",
+          "Bangalore",
+          "Bhopal",
+          "Bhubaneshwar",
+          "Chandigarh",
+          "Chennai",
+          "Coimbatore",
+          "Dehradun",
+          "Faridabad",
+          "Ghaziabad",
+          "Goa",
+          "Gurgaon",
+          "Guwahati",
+          "Hyderabad",
+          "Indore",
+          "Jaipur",
+          "Kanpur",
+          "Kochi",
+          "Kolkata",
+          "Lucknow",
+          "Luhiana",
+          "Mangalore",
+          "Mohali",
+          "Mumbai",
+          "Mysore",
+          "Nagpur",
+          "Nashik",
+          "New Delhi",
+          "Noida",
+          "Panchkula",
+          "Patna",
+          "Puducherry",
+          "Pune",
+          "Ranchi",
+          "Secunderabad",
+          "Surat",
+          "Vadodara",
+          "Varanasi",
+          "Vizag"
+        ],
+        "name": "City Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "City_selection == null || datum.City == City_selection"},
+    {"filter": "Rating_selection == null || datum.Rating_text == Rating_selection"},
+    {
+      "joinaggregate": [
+        {"op": "count", "field": "Has_Table_booking", "as": "Total"}
+      ]
+    },
+    {
+      "joinaggregate": [
+        {"op": "count", "field": "Has_Table_booking", "as": "Total_yes"}
+      ]
+    },
+    {"calculate": "datum.Total_yes/datum.Total_yes", "as": "PercentOfTotal"}
+  ],
+  "hconcat": [
+    {
+      "height": 220,
+      "width": 250,
+      "title": "Has Table booking?",
+      "mark": {"type": "arc", "innerRadius": 50},
+      "encoding": {
+        "theta": {
+          "aggregate": "count",
+          "field": "Has_Table_booking",
+          "type": "nominal"
+        },
+        "color": {
+          "field": "Has_Table_booking",
+          "title": "Results",
+          "type": "nominal"
+        },
+        "tooltip": [
+          {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Number of Restaurants",
+            "format": ","
+          }
+        ]
+      },
+      "view": {"stroke": null}
+    },
+    {
+      "title": "Has Online delivery?",
+      "mark": {"type": "arc", "innerRadius": 50},
+      "encoding": {
+        "theta": {
+          "aggregate": "count",
+          "field": "Has_Online_delivery",
+          "type": "nominal"
+        },
+        "color": {
+          "field": "Has_Online_delivery",
+          "title": "",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Yes",
+              "No"
+            ],
+            "range": [
+              "#de2d26",
+              "#bababa"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Number of Restaurants",
+            "format": ","
+          }
+        ]
+      },
+      "view": {"stroke": null}
+    }
+  ],
+  "config": {}
+}
