@@ -12,7 +12,7 @@
       "bind": {
         "input": "range",
         "min": 0,
-        "max": 11000,
+        "max": 5000,
         "step": 100,
         "name": "Minimum Votes: "
       }
