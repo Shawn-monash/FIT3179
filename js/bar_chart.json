@@ -122,13 +122,13 @@
     {"filter": "datum.Votes > Votes_Above"}
   ],
   "encoding": {
-    "x": {
+    "y": {
       "field": "Rating_text",
       "title": "Rating",
       "type": "nominal",
       "sort": ["Excellent", "Very Good", "Good", "Average", "Poor", "Not rated"]
     },
-    "y": {"aggregate": "count", "title": "Number of Restaurants"}
+    "x": {"aggregate": "count", "title": "Number of Restaurants"}
   },
   "layer": [
     {
@@ -182,8 +182,8 @@
         "type": "text",
         "align": "right",
         "baseline": "middle",
-        "dx": 12,
-        "dy": -7,
+        "dx": 25,
+        "dy": 0,
         "fontStyle": "italic"
       },
       "encoding": {"text": {"aggregate": "count", "type": "quantitative"}}
